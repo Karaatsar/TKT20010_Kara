@@ -20,4 +20,3 @@ def test_get_valid_moves():
     board=Board()
     moves=board.get_valid_moves()
     assert set(moves)==set(range(7))
-    
