@@ -28,6 +28,9 @@ def minimax(board:Board, depth:int, alpha:float, beta:float, maximizing:bool,
             new_board=Board()
             new_board.grid=[row[:] for row in board.grid]
             new_board.make_move(move, player)
+            last_row=next(r for r in range(rows) if new_board.grid[r][move]!=0)
+            if new_board.check_winner(last_row, move)==player:
+                return 1000, move #tarkistetaan tuliko voitto heti
             new_score,_=minimax(new_board, depth-1, alpha, beta, False, player)
             if new_score>value:
                 value=new_score
@@ -44,6 +47,9 @@ def minimax(board:Board, depth:int, alpha:float, beta:float, maximizing:bool,
             new_board=Board()
             new_board.grid=[row[:] for row in board.grid]
             new_board.make_move(move, player)
+            last_row=next(r for r in range(rows) if new_board.grid[r][move]!=0)
+            if new_board.check_winner(last_row, move)==player:
+                return 1000, move #tarkistetaan tuliko voitto heti
             new_score,_=minimax(new_board, depth-1, alpha, beta, True, player)
             if new_score<value:
                 value=new_score
