@@ -1,5 +1,5 @@
 import pytest
-from connect4.board import Board
+from connect4.board import Board, rows, columns
 
 def test_new_board_is_empty():
     board=Board()
