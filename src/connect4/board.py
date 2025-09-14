@@ -23,3 +23,25 @@ class Board:
     def __str__(self):
         return "\n".join(" ".join(str(cell) for cell in row) for row in self.grid)
     
+    def check_winner(self, last_row: int, last_col: int) -> int | None:
+        player=self.grid[last_row][last_col]
+        if player==0: 
+            return None
+        directions=[(1,0), (0,1), (1,1), (1,-1)]
+        for dr, dc in directions: 
+            count=1
+            r, c = last_row+dr, last_col+dc
+            while 0<=r<rows and 0<=c<columns and self.grid[r][c]==player:
+                count+=1
+                r+=dr
+                c+=dc
+            r, c = last_row-dr, last_col-dc
+            while 0<=r<rows and 0<=c<columns and self.grid[r][c]==player:
+                count+=1
+                r-=dr
+                c-=dc
+            if count>=4:
+                return player
+        return None
+    
+            
