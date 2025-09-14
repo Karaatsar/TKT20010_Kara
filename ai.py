@@ -28,7 +28,7 @@ def minimax(board:Board, depth:int, alpha:float, beta:float, maximizing:bool,
             new_board=Board()
             new_board.grid=[row[:] for row in board.grid]
             new_board.make_move(move, player)
-            new_score,_=minimax(new_board, depth-1, alpha, beta, False)
+            new_score,_=minimax(new_board, depth-1, alpha, beta, False, player)
             if new_score>value:
                 value=new_score
                 best_move=move
@@ -44,7 +44,7 @@ def minimax(board:Board, depth:int, alpha:float, beta:float, maximizing:bool,
             new_board=Board()
             new_board.grid=[row[:] for row in board.grid]
             new_board.make_move(move, player)
-            new_score,_=minimax(new_board, depth-1, alpha, beta, True)
+            new_score,_=minimax(new_board, depth-1, alpha, beta, True, player)
             if new_score<value:
                 value=new_score
                 best_move=move
