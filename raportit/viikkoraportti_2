@@ -1,0 +1,27 @@
+# Viikkoraportti 1
+
+**Viikon ajankohta:**  
+(9.-15.9.2025)
+
+**Käytetty aika:**  
+8 tuntia
+
+---
+
+### Mitä olen tehnyt tällä viikolla?
+Korjailin github repositoriota, jotta siellä olisi kaikkea mitä tarvitaan ja ylimääräisiä juttuja poissa. Tein myös Board.py tiedoston, joka lyhyesti sanottuna määrittelee pelilaudan (connect4) luokan, jota voidaan sitten käyttää pelissä. Tein myös ai.py tiedoston, jossa käyetetään minmax algoritmia joka lyhyesti sanottuna toteuttaa tekoälylogiikan. Minmax käy läpi siirtoja ja ovatko ne mahdollisia. Tein myös kaksi test.tiedostoa. Toinen test_board.py testaa että peliä voi pelata ja että siinä käytetään oikeanlaisia siirtoja. Viimeisenä tein myös test_ai.py tiedoston, jossa testataan tekoälyn mahdollinen voitto heti pelin alussa. 
+
+### Miten ohjelma on edistynyt?
+En tiedä kysytäänkö tässä sitä, mutta hyvin on mielestäni edistynyt. Saatan olla tällä hetkellä hieman jäljessä viikkoseurantaan, mutta haluan olla sekä huolellinen ja että tämä onnistuu. 
+
+### Mitä opin tällä viikolla?
+Vähän enemmän jo kirjoittamaan koodia, sekä selvitin enemmän minmax algoritmista ja kuinka se toimii. 
+
+### Mikä jäi epäselväksi tai tuotti vaikeuksia?
+Vaikka sanoin että opin enemmän koodin kirjoittamista, se myös tuotti vaikeuksia ja jouduin parissa otteessa selvittämään apua ChatGPT:ltä sillä en ollut täysin varma miten esimerkiksi teen testi tiedostoja.  
+
+### Mitä teen seuraavaksi?
+Kolmannen viikon juttuja ja toisen viikon viimeistelyä!
+
+### Muuta palautetta tai kysymyksiä
+Ei tällä kertaa. 
