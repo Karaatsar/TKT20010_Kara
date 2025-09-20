@@ -18,7 +18,10 @@ class Board:
         return False
     
     def get_valid_moves(self):
-        return [c for c in range(columns) if self.is_valid_move(c)]
+        center = columns//2
+        return sorted([c for c in range(columns) if self.grid[0][c]==0], 
+                      key=lambda c: abs(c-center))
+        
     
     def __str__(self):
         return "\n".join(" ".join(str(cell) for cell in row) for row in self.grid)
