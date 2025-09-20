@@ -1,0 +1,30 @@
+# Viikkoraportti 3
+
+**Viikon ajankohta:**  
+(16.-22.9.2025)
+
+**Käytetty aika:**  
+7 tuntia
+
+---
+
+### Mitä olen tehnyt tällä viikolla?
+Korjailin github repositoriota, lisäsin käyttöliittymän (main.py) tiedoston, ja pääsin testaamaan pelin pelaamista. Latasin myös Pylintin ja sen avulla
+korjaisin koodia, jotta se olisi ehkä hieman siistimpää. Tein myös muutoksia joista olin saanut palautetta labtooliin. Yritin ainakin alkuun korjailla 
+ai.py tiedostoa, jotta tekoäly ei pelaisi vain 3. sarakkeesee, mutta se ei vielä onnistunut. 
+
+### Miten ohjelma on edistynyt?
+Sitä voi jo pelata! Ei vielä hyvin, mutta kuitenkin. Ohjelma on jo hieman siistimpää kooditasolla Pylintin avulla. 
+
+### Mitä opin tällä viikolla?
+Enemmän! Koko ajan vain enemmän. Opin käyttämään Pylintiä, ja opin hieman enemmän käyttöliittymän tekemisestä.
+
+### Mikä jäi epäselväksi tai tuotti vaikeuksia?
+Esimerkiksi miksi tekoäly pelaa vain keskimmäiseen sarakkeeseen. Yritin korjata sitä, mutta en vielä onnistunut. Uudestaan parin päivän päästä. 
+
+### Mitä teen seuraavaksi?
+Vielä lisää kolmannen viikon juttuja ja neljänteen viikkoon siirtymistä. 
+
+### Muuta palautetta tai kysymyksiä
+Ei tällä kertaa. 
+
