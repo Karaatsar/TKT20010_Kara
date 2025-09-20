@@ -12,6 +12,12 @@ def evaluate_board(board: Board, player: int) -> int:
     center_col=columns//2
     center_count=sum(row(center_col)==player for row in board.grid)
     score+=center_count*3
+
+    for r in range(rows):
+        for c in range(columns-2):
+            window=[board.grid[r][c+i] for i in range(3)]
+            score+= window.count(player)*2
+            score-=window.count(-player)*2
     return score #tekoäly suosii keskimmäistä saraketta
 
 def minimax(board:Board, depth:int, alpha:float, beta:float, maximizing:bool,
