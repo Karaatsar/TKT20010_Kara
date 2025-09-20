@@ -3,12 +3,16 @@ import math
 from connect4.board import Board, rows, columns
 
 def evaluate_board(board: Board, player: int) -> int:
+    opponent = -player
+    score = 0
+
     for r in range(rows):
         for c in range(columns):
             winner=board.check_winner(r,c)
             if winner==player:
                 return 1000 #+1000 jos pelaaja voittaa
-            return -1000 #-100 jos vastustaja (opponent) voittaa
+            else: 
+                return -1000 #-1000 jos vastustaja (opponent) voittaa
     center_col=columns//2
     center_count=sum(row(center_col)==player for row in board.grid)
     score+=center_count*3
@@ -55,7 +59,7 @@ def minimax(board:Board, depth:int, alpha:float, beta:float, maximizing:bool,
         for move in valid_moves:
             new_board=Board()
             new_board.grid=[row[:] for row in board.grid]
-            new_board.make_move(move, player)
+            new_board.make_move(move, opponent)
             last_row=next(r for r in range(rows) if new_board.grid[r][move]!=0)
             if new_board.check_winner(last_row, move)==player:
                 return 1000, move #tarkistetaan tuliko voitto heti
