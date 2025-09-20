@@ -2,6 +2,8 @@ import math
 from connect4.board import Board, rows, columns
 
 def evaluate_board(board: Board, player: int) -> int:
+    opponent=-player
+    score=0
     for r in range(rows):
         for c in range(columns):
             winner=board.check_winner(r,c)
@@ -9,7 +11,10 @@ def evaluate_board(board: Board, player: int) -> int:
                 return 1000 #+1000 jos pelaaja voittaa
             else:
                 return -1000 #-100 jos vastustaja (opponent) voittaa
-    return 0 #0 jos kumpikaan ei voita
+    center_col=columns//2
+    center_count=sum(row(center_col)==player for row in board.grid)
+    score+=center_count*3
+    return score #tekoäly suosii keskimmäistä saraketta
 
 def minimax(board:Board, depth:int, alpha:float, beta:float, maximizing:bool, 
             player:int) ->tuple[int, int | None]: #alpha_beta karsinnalla
