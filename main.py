@@ -1,4 +1,5 @@
 from connect4.board import Board, rows, columns
+from ai import minimax
 import math
 
 def print_board(board: Board):
