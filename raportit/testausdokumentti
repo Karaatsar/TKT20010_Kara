@@ -1,1 +1,25 @@
-tänne uusia ajatuksia lol
+
+# testausdokumentti #
+
+**Mikä?**
+- projekti on connect4 peli tekoälyllä
+- juuri tässä pelissä keskitytään pelilaudan toimintaan, voittotarkistuksiin ja myös tekoälyyn ja sen siirtoihin
+
+**Testausmenetelmät:**
+- yksikkötestaus: pytest
+- staattinen analyysi: pylint
+- manuaalitestaus: käyttöliittymän avulla pelaus
+
+**Erilaisia testitapauksia:**
+- 
+
+**Testikattavuus:**
+- 
+
+**Tulokset (tähän mennessä):**
+- yksikkötestit läpäisty
+- pylint antoi tähän mennessä arvosanan: 
+- Tekoälyn peli tällä hetkellä hyvin yksikantaista
+
+**Johtopäätökset:**
+- 
