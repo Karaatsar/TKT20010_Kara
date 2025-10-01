@@ -1,6 +1,12 @@
 '''tekoälyn logiikkaa connect4 peliin käyttämällä minimax ja alpha-beta karsintaa'''
 import math
+import time
 from connect4.board import Board, rows, columns
+
+table={}
+def board_key(board: Board):
+    #luodaan pelilaudasta avain sanakirjaa varten
+    return tuple(tuple(row) for row in board.grid)
 
 def evaluate_window(window, player: int) -> int:
     #arvioidaan neljän mittaisen ikkunan tilanne
@@ -59,6 +65,13 @@ def minimax(board:Board, depth:int, alpha:float, beta:float, maximizing:bool,
     if maximizing: #max!
         value=-math.inf
         best_move=None
+
+        key = board_key(board)
+        if key in table:
+            first=[table[key]]
+            others=[m for m in valid_moves if m!=table[key]]
+            valid_moves=first+others
+
         for move in valid_moves:
             new_board=Board()
             new_board.grid=[row[:] for row in board.grid]
@@ -73,6 +86,8 @@ def minimax(board:Board, depth:int, alpha:float, beta:float, maximizing:bool,
             alpha=max(alpha, value)
             if alpha>=beta:
                 break
+        if best_move is not None:
+            table[key]=best_move
         return value, best_move
     
     else: #min!
@@ -93,3 +108,18 @@ def minimax(board:Board, depth:int, alpha:float, beta:float, maximizing:bool,
             if beta<=alpha:
                 break
         return value, best_move
+    
+def find_best_move(board:Board, player: int, time_limit:float=2.0):
+    #etsitään paras siirto aikarajan puitteissa
+    start_time=time.time()
+    best_move=None
+    depth=1
+
+    while True:
+        if time.time()-start_time>time_limit:
+            break
+        score, move=minimax(board, depth, -math.inf, math.inf, True, player)
+        if move is not None:
+            best_move=move
+        depth+=1
+    return best_move
