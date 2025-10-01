@@ -2,27 +2,49 @@
 import math
 from connect4.board import Board, rows, columns
 
+def evaluate_window(window, player: int) -> int:
+    #arvioidaan neljän mittaisen ikkunan tilanne
+    score=0
+    opponent=-player
+    if window.count(player)==4: 
+        score+=100
+    elif window.count(player)==3 and window.count(0)==1:
+        score+=10
+    elif window.count(player)==2 and window.count(0)==2:
+        score+=5
+    if window.count(opponent)==3 and window.count(0)==1:
+        score-=80 #estetään vastustajan voitto
+    return score
+
 def evaluate_board(board: Board, player: int) -> int:
-    opponent = -player
+    #arvioidaan pelilauta
     score = 0
-
-    for r in range(rows):
-        for c in range(columns):
-            winner=board.check_winner(r,c)
-            if winner==player:
-                return 1000 #+1000 jos pelaaja voittaa
-            else: 
-                return -1000 #-1000 jos vastustaja (opponent) voittaa
     center_col=columns//2
-    center_count=sum(row(center_col)==player for row in board.grid)
-    score+=center_count*3
+    center_array = [board.grid[r][center_col] for r in range(rows)] #keskimmäisen sarakkeen suosiminen
+    score+=center_array.count(player)*3
 
-    for r in range(rows):
-        for c in range(columns-2):
-            window=[board.grid[r][c+i] for i in range(3)]
-            score+= window.count(player)*2
-            score-=window.count(-player)*2
-    return score #tekoäly suosii keskimmäistä saraketta
+    for r in range(rows): #vaakasuorat ikkunat
+        for c in range(columns-3):
+            window=[board.grid[r][c+i] for i in range(4)]
+            score+=evaluate_window(window, player)
+    
+    for c in range(columns): #pystysuorat ikkunat
+        for r in range(rows-3):
+            window=[board.grid[r+i][c] for i in range(4)]
+            score+=evaluate_window(window, player)
+
+    for r in range(rows-3): #diagonaalit alas oikealle
+        for c in range(columns-3):
+            window=[board.grid[r+i][c+i] for i in range(4)]
+            score+=evaluate_window(window, player)
+
+    for r in range(3, rows): #diagonaalit alas vasemmalle
+        for c in range(3, columns):
+            window=[board.grid[r-i][c-i] for i in range(4)]
+            score+=evaluate_window(window, player)
+    
+    return score
+
 
 def minimax(board:Board, depth:int, alpha:float, beta:float, maximizing:bool,
             player:int) ->tuple[int, int | None]: #alpha_beta karsinnalla
