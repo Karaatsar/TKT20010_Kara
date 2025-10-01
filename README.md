@@ -1,5 +1,9 @@
 # Projekti
 
+projektissa siis toteutetaan perinteinen connect4-peli, jossa voi pelata 
+tekoälyä vastaan.
+Tekoäly hyödyntää tällä hetkellä minimax-algoritmia ja alpha-beta 
+karsintaa.
 ## Asennusohjeet
 
 1. Asenna Poetry virallisilla ohjeilla:  
@@ -10,5 +14,12 @@
 
    ```bash
    export PATH="$HOME/.local/bin:$PATH
+
+## käyttöohjeet
+
+1. käynnistä peli: poetry run python main.py (peliä pelataan
+komentorivin kautta) (pelaaja tekee siis siirtoja valitsemalla 
+sarakkeen numeron (0-6)). 
+
 
 
