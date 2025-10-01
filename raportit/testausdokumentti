@@ -2,19 +2,29 @@
 # testausdokumentti #
 
 **Mikä?**
-- projekti on connect4 peli tekoälyllä
+- projekti on connect4-peli, jossa pelataan tekoälyä vastaan
 - juuri tässä pelissä keskitytään pelilaudan toimintaan, voittotarkistuksiin ja myös tekoälyyn ja sen siirtoihin
 
 **Testausmenetelmät:**
 - yksikkötestaus: pytest
 - staattinen analyysi: pylint
-- manuaalitestaus: käyttöliittymän avulla pelaus
+- manuaalitestaus: käyttöliittymän avulla pelaus (peliä pelataan
+komentoriviltä)
 
 **Erilaisia testitapauksia:**
-- 
+- uusi pelilauta on tyhjä
+- ensimmäinen siirto onnistuu, ja pelinappula tippuu oikeaan kohtaab
+- voittotarkistus: 
+  - vaakasuora neljän rivi
+  - pystysuora neljän rivi
+  - vinorivit molempiin suuntiin
+- Tekoäly: 
+  - tekee välittömän voittosiirron, jos mahdollista (ensimmäinen tällainen
+  on sen neljäs siirto) 
+  - estää vastustajan voittosiirron (ei vielä osaa tätä)
 
 **Testikattavuus:**
-- 
+- pelilaudan perustoiminnnot hyvin hallussa
 
 **Tulokset (tähän mennessä):**
 - yksikkötestit läpäisty
@@ -22,4 +32,5 @@
 - Tekoälyn peli tällä hetkellä hyvin yksikantaista
 
 **Johtopäätökset:**
-- 
+- pelin ydintoiminnot (lauta ja voittosäännöt) toimivat hyvin ja luotettavasti
+- testikattavuus hyvä, mutta tekoälyn logiikka kaipaa lisää testejä
