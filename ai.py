@@ -1,9 +1,13 @@
-'''tekoälyn logiikkaa connect4 peliin käyttämällä minimax ja alpha-beta karsintaa'''
+'''tekoälyn logiikkaa connect4 peliin käyttämällä minimax ja alpha-beta karsintaa
+   Sisältää arviointifunktion, minimax-algoritmin ja hajautustaulun siirtojen järjes-
+   tämisen tehostamiseksi.'''
 import math
 import time
 from connect4.board import Board, rows, columns
 
+# hajautustauli, joka tallentaa aiemmin tutkittujen pelitilanteiden parhaiten siirtojen tallentamiseen
 table={}
+
 def board_key(board: Board):
     #luodaan pelilaudasta avain sanakirjaa varten
     return tuple(tuple(row) for row in board.grid)
