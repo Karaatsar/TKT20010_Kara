@@ -1,4 +1,8 @@
-import math
+''' connect4-pelin pääohjelma. tässä tiedostossa moduuli käynnistää
+    pelin, jossa pelaaja pelaa tekoälyä vastaan. peli pelataan 6x7
+    ruudukolla, ja voittaja on se joka saa neljä peräkkäin joko
+    vaakasuoraan, pystysuoraan tai vinottain.'''
+
 from connect4.board import Board, rows, columns
 from ai import minimax
 
