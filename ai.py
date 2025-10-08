@@ -8,19 +8,28 @@ def board_key(board: Board):
     #luodaan pelilaudasta avain sanakirjaa varten
     return tuple(tuple(row) for row in board.grid)
 
-def evaluate_window(window, player: int) -> int:
-    #arvioidaan neljän mittaisen ikkunan tilanne
-    score=0
+def evaluate_window(window, player):
     opponent=-player
-    if window.count(player)==4: 
-        score+=100
-    elif window.count(player)==3 and window.count(0)==1:
-        score+=10
-    elif window.count(player)==2 and window.count(0)==2:
+    score=0
+
+    player_count=window.count(player)
+    opponent_count=window.count(opponent)
+    empty_count=window.count(0)
+
+    #nämä pelaajan eduksi
+    if player_count==3 and empty_count==1:
         score+=5
-    if window.count(opponent)==3 and window.count(0)==1:
-        score-=80 #estetään vastustajan voitto
+    elif player_count==2 and empty_count==2:
+        score+=2
+    
+    #nämä vastustajan eduksi (niin sanottu symmetrinen miinus)
+    if opponent_count==3 and empty_count==1:
+        score-=5
+    elif opponent_count==2 and empty_count==2:
+        score-=2
+    
     return score
+    
 
 def evaluate_board(board: Board, player: int) -> int:
     #arvioidaan pelilauta
