@@ -28,7 +28,7 @@ komentoriviltä)
 
 **Tulokset (tähän mennessä):**
 - yksikkötestit läpäisty
-- pylint antoi tähän mennessä arvosanan: 
+- pylint antoi tähän mennessä arvosanan:7.25/10 (pylint testattiin ai.py ja main.py tiedostoihin)
 - Tekoälyn peli tällä hetkellä hyvin yksikantaista
 
 **Johtopäätökset:**
