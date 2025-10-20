@@ -19,7 +19,7 @@ def play_game():
         if player == 1:
             #pelaajan vuoro
             try:
-                move=int(input("pelaaja: valitse sarake (1-7):"))
+                move=int(input("pelaaja: valitse sarake (1-7):")) -1
             except ValueError:
                 print("virheellinen syöte. yritä uudestaan.")
                 continue
@@ -34,7 +34,7 @@ def play_game():
                 break
 
             board.make_move(move, player)
-            print(f"tekoäly valitsi sarakeen {move}")
+            print(f"tekoäly valitsi sarakeen {move +1}")
         
         #tarkistetaan voitto
         for r in range(rows):
