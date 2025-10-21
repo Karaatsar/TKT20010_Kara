@@ -3,7 +3,7 @@
     ruudukolla, ja voittaja on se joka saa neljä peräkkäin joko
     vaakasuoraan, pystysuoraan tai vinottain.'''
 
-from connect4.board import Board, rows, columns
+from board import Board, rows, columns
 from ai import minimax
 
 
