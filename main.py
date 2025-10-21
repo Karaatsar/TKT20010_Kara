@@ -8,10 +8,12 @@ from ai import minimax
 
 
 def print_board(board: Board):
-    print(board) #tulostetaan pelilauta
-    print("1 2 3 4 5 6 7") #sarakkeiden numerot
+    '''tulostaa pelilaudan ja sarakkeiden numerot'''
+    print(board) 
+    print("1 2 3 4 5 6 7") 
 
 def play_game():
+    '''käynnistää pelin tekoälyä vastaan'''
     board = Board()
     player = 1 #pelaaja aloittaa (ei tekoäly)
     while True:
@@ -21,7 +23,15 @@ def play_game():
             try:
                 move=int(input("pelaaja: valitse sarake (1-7):")) -1
             except ValueError:
-                print("virheellinen syöte. yritä uudestaan.")
+                print("anna numero väliltä 1-7.")
+                continue
+            
+            if move not in range(columns):
+                print("virheellinen sarake. valitse 1-7.")
+                continue
+            
+            if not board.make_move(move,player):
+                print("sarake on täynnä, yritä toista")
                 continue
         else:
             #tekoälyn vuoro
