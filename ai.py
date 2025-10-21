@@ -5,14 +5,15 @@ import math
 import time
 from connect4.board import Board, rows, columns
 
-# hajautustauli, joka tallentaa aiemmin tutkittujen pelitilanteiden parhaiten siirtojen tallentamiseen
+# hajautustaulu, joka tallentaa aiemmin tutkittujen pelitilanteiden parhaiten siirtojen tallentamiseen
 table={}
 
 def board_key(board: Board):
-    #luodaan pelilaudasta avain sanakirjaa varten
+    '''luodaan pelilaudasta avain sanakirjaa varten'''
     return tuple(tuple(row) for row in board.grid)
 
 def evaluate_window(window, player):
+    '''arvioidaan 4-ruudun ikkuna pelaajan kannalta'''
     opponent=-player
     score=0
 
@@ -36,11 +37,12 @@ def evaluate_window(window, player):
     
 
 def evaluate_board(board: Board, player: int) -> int:
-    #arvioidaan pelilauta
+    '''arvioidaan pelilauta. painottaa keskisaraketta ja etsii
+    4-ruutuisia "ikkunoita"'''
     score = 0
     center_col=columns//2
     center_array = [board.grid[r][center_col] for r in range(rows)] #keskimmäisen sarakkeen suosiminen
-    score+=center_array.count(player)*3
+    score+=center_array.count(player)*3 #tässä keskisarakkeen painotus
 
     for r in range(rows): #vaakasuorat ikkunat
         for c in range(columns-3):
@@ -66,7 +68,8 @@ def evaluate_board(board: Board, player: int) -> int:
 
 
 def minimax(board:Board, depth:int, alpha:float, beta:float, maximizing:bool,
-            player:int) ->tuple[int, int | None]: #alpha_beta karsinnalla
+            player:int) ->tuple[int, int | None]: 
+    '''minimax-algoritmi alpha-beta karsinnalla.'''
     
     opponent=-player
     valid_moves=board.get_valid_moves()
@@ -123,7 +126,7 @@ def minimax(board:Board, depth:int, alpha:float, beta:float, maximizing:bool,
         return value, best_move
     
 def find_best_move(board:Board, player: int, time_limit:float=2.0):
-    #etsitään paras siirto aikarajan puitteissa
+    '''etsitään paras siirto aikarajan puitteissa'''
     start_time=time.time()
     best_move=None
     depth=1
