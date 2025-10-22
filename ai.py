@@ -3,7 +3,7 @@
    tämisen tehostamiseksi.'''
 import math
 import time
-from connect4.board import Board, rows, columns
+from board import Board, rows, columns
 
 # hajautustaulu, joka tallentaa aiemmin tutkittujen pelitilanteiden parhaiten siirtojen tallentamiseen
 table={}
