@@ -1,4 +1,4 @@
-from connect4.board import Board
+from board import Board
 from ai import evaluate_board, minimax, find_best_move
 
 def test_ai_wins_immediately():
