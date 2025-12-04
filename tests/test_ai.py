@@ -52,4 +52,24 @@ def test_ai_chooses_winning_over_blocking():
     score, move=minimax(board, depth=2, alpha=-9999,beta=9999, maximizing=True, player=-1)
     assert move==0 #AI valitsee voittavan siirron
 
+def test_ai_recognizes_forced_win():
+    '''AI tunnistaa pakotetun voiton'''
+    board=Board()
+    
+    board.make_move(3,1)
+    ai_move_1=find_best_move(board, player=-1, time_limit=1.0)
+    board.make_move(ai_move_1,-1)
+    assert ai_move_1 in board.get_valid_moves()
+
+    board.make_move(2,1)
+    ai_move_2=find_best_move(board, player=-1, time_limit=1.0)
+    board.make_move(ai_move_2,-1)
+    assert ai_move_2 in board.get_valid_moves()
+
+    board.make_move(4,1)
+    score, ai_move_3=minimax(board, depth=4, alpha=-9999,beta=9999, maximizing=True, player=-1)
+    assert ai_move_3 in board.get_valid_moves()
+
+    assert score>0
+
 
