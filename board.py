@@ -1,34 +1,47 @@
 rows=6
-columns=7
+cols=7
+columns = cols
 
 class Board:
     '''luokka, joka mallintaa connect4 pelilautaa'''
     def __init__(self):
         '''tyhjä pelilauta, jossa 0=tyhjä, 1=pelaaja, -1=tekoäly'''
-        self.grid = [[0 for _ in range(columns)] for _ in range(rows)]
+        self.grid = [[0 for _ in range(cols)] for _ in range(rows)]
+
+    def _apply_gravity(self, column: int) -> None:
+        '''pudottaa sarakkeen pelinappulat alimpaan mahdolliseen kohtaan'''
+        tokens=[self.grid[r][column] for r in range(rows-1, -1, -1) if self.grid[r][column]!=0]
+        idx=0
+        for r in range(rows-1, -1, -1):
+            if idx < len(tokens):
+                self.grid[r][column]=tokens[idx]
+                idx+=1
+            else:
+                self.grid[r][column]=0
 
     def is_valid_move(self, column: int) -> bool:
         '''tarkistaa onko siirto mahdollinen
         palauttaa True jos siirto on mahdollinen, muuten False'''
-        return self.grid[0][column]==0
+        return any(self.grid[r][column]==0 for r in range(rows))
     
-    def make_move(self, column: int, player: int) -> bool:
-        '''tekee pelaajan siirron sarakkeeseen, 
-        palauttaa True jos siirto onnistui, muuten False'''
+    def make_move(self, column: int, player: int) -> int | bool:
+        '''tekee pelaajan siirron sarakkeeseen,
+        palauttaa rivin indeksin jos siirto onnistui, muuten False'''
+        self._apply_gravity(column)
         if not self.is_valid_move(column):
             return False
         # etsitään alin tyhjä rivi sarakkeessa
         for row in range(rows-1, -1, -1):
             if self.grid[row][column]==0:
                 self.grid[row][column]=player
-                return True
+                return row
         return False
     
     def get_valid_moves(self):
         '''palauttaa listan sarakkeista, joihin voi tehdä siirron,
         keskisaraketta suosien'''
-        center = columns//2
-        return sorted([c for c in range(columns) if self.grid[0][c]==0], 
+        center = cols//2
+        return sorted([c for c in range(cols) if self.is_valid_move(c)], 
                       key=lambda c: abs(c-center))
         
     
@@ -46,12 +59,12 @@ class Board:
         for dr, dc in directions: 
             count=1
             r, c = last_row+dr, last_col+dc
-            while 0<=r<rows and 0<=c<columns and self.grid[r][c]==player:
+            while 0<=r<rows and 0<=c<cols and self.grid[r][c]==player:
                 count+=1
                 r+=dr
                 c+=dc
             r, c = last_row-dr, last_col-dc
-            while 0<=r<rows and 0<=c<columns and self.grid[r][c]==player:
+            while 0<=r<rows and 0<=c<cols and self.grid[r][c]==player:
                 count+=1
                 r-=dr
                 c-=dc

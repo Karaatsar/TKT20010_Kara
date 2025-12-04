@@ -3,7 +3,7 @@
    tämisen tehostamiseksi.'''
 import math
 import time
-from board import Board, rows, columns
+from board import Board, rows, cols
 
 # hajautustaulu, joka tallentaa aiemmin tutkittujen pelitilanteiden parhaiten siirtojen tallentamiseen
 table={}
@@ -40,27 +40,27 @@ def evaluate_board(board: Board, player: int) -> int:
     '''arvioidaan pelilauta. painottaa keskisaraketta ja etsii
     4-ruutuisia "ikkunoita"'''
     score = 0
-    center_col=columns//2
+    center_col=cols//2
     center_array = [board.grid[r][center_col] for r in range(rows)] #keskimmäisen sarakkeen suosiminen
     score+=center_array.count(player)*3 #tässä keskisarakkeen painotus
 
     for r in range(rows): #vaakasuorat ikkunat
-        for c in range(columns-3):
+        for c in range(cols-3):
             window=[board.grid[r][c+i] for i in range(4)]
             score+=evaluate_window(window, player)
     
-    for c in range(columns): #pystysuorat ikkunat
+    for c in range(cols): #pystysuorat ikkunat
         for r in range(rows-3):
             window=[board.grid[r+i][c] for i in range(4)]
             score+=evaluate_window(window, player)
 
     for r in range(rows-3): #diagonaalit alas oikealle
-        for c in range(columns-3):
+        for c in range(cols-3):
             window=[board.grid[r+i][c+i] for i in range(4)]
             score+=evaluate_window(window, player)
 
     for r in range(3, rows): #diagonaalit alas vasemmalle
-        for c in range(3, columns):
+        for c in range(3, cols):
             window=[board.grid[r-i][c-i] for i in range(4)]
             score+=evaluate_window(window, player)
     
@@ -91,8 +91,10 @@ def minimax(board:Board, depth:int, alpha:float, beta:float, maximizing:bool,
         for move in valid_moves:
             new_board=Board()
             new_board.grid=[row[:] for row in board.grid]
-            new_board.make_move(move, player)
-            last_row=next(r for r in range(rows) if new_board.grid[r][move]!=0)
+            
+            last_row=new_board.make_move(move, player)
+            if last_row is False:
+                continue
             if new_board.check_winner(last_row, move)==player:
                 return 1000, move #tarkistetaan tuliko voitto heti
             new_score,_=minimax(new_board, depth-1, alpha, beta, False, player)
@@ -112,10 +114,12 @@ def minimax(board:Board, depth:int, alpha:float, beta:float, maximizing:bool,
         for move in valid_moves:
             new_board=Board()
             new_board.grid=[row[:] for row in board.grid]
-            new_board.make_move(move, opponent)
-            last_row=next(r for r in range(rows) if new_board.grid[r][move]!=0)
-            if new_board.check_winner(last_row, move)==player:
-                return 1000, move #tarkistetaan tuliko voitto heti
+            
+            last_row=new_board.make_move(move, opponent)
+            if last_row is False:
+                continue
+            if new_board.check_winner(last_row, move)==opponent:
+                return -1000, move
             new_score,_=minimax(new_board, depth-1, alpha, beta, True, player)
             if new_score<value:
                 value=new_score

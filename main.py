@@ -30,7 +30,7 @@ def play_game():
                 print("virheellinen sarake. valitse 1-7.")
                 continue
             
-            if not board.make_move(move,player):
+            if board.make_move(move,player) is False:
                 print("sarake on täynnä, yritä toista")
                 continue
         else:
