@@ -1,4 +1,4 @@
-from board import Board
+from board import Board, rows, cols
 from ai import evaluate_board, minimax, find_best_move
 
 def test_ai_wins_immediately():
@@ -44,4 +44,12 @@ def test_minimax_symmetria():
 def test_ai_chooses_winning_over_blocking():
     '''Ai valitsee voiton estämisen sijaan'''
     board=Board()
+    for r in range(3):
+        board.grid[r][0]=-1
+    for c in range(3,6):
+        board.grid[5][c]=1
+    
+    score, move=minimax(board, depth=2, alpha=-9999,beta=9999, maximizing=True, player=-1)
+    assert move==0 #AI valitsee voittavan siirron
+
 
