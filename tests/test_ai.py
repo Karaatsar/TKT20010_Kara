@@ -1,6 +1,12 @@
 from board import Board, rows, cols
 from ai import evaluate_board, minimax, find_best_move
 
+def play_moves(board: Board, moves):
+    for col, player in moves:
+        ok= board.make_move(col, player)
+        assert ok, f"sarake {col} täynnä"
+    return board
+
 def test_ai_wins_immediately():
     board=Board()
     player=1
@@ -31,6 +37,8 @@ def test_ai_blocks_opponent_win():
     for c in range(3):
         board.make_move(c, 1) #pelaajalla on kolme peräkkäin
     best_move=find_best_move(board, player=-1, time_limit=1.0)
+    best_move=minimax(board, depth=2, alpha=-9999,beta=9999, maximizing=True, player=-1)
+    assert best_move in board.get_valid_moves()
     assert best_move==3 
 
 def test_minimax_symmetria():
@@ -57,19 +65,20 @@ def test_ai_recognizes_forced_win():
     board=Board()
     
     board.make_move(3,1)
-    ai_move_1=find_best_move(board, player=-1, time_limit=1.0)
-    board.make_move(ai_move_1,-1)
+    score1, ai_move_1=minimax(board, depth=2, alpha=-9999,beta=9999, maximizing=True, player=-1)
     assert ai_move_1 in board.get_valid_moves()
+    board.make_move(ai_move_1,-1)
 
     board.make_move(2,1)
-    ai_move_2=find_best_move(board, player=-1, time_limit=1.0)
-    board.make_move(ai_move_2,-1)
+    score2, ai_move_2=minimax(board, depth=2, alpha=-9999,beta=9999, maximizing=True, player=-1)
     assert ai_move_2 in board.get_valid_moves()
+    board.make_move(ai_move_2,-1)
+
 
     board.make_move(4,1)
-    score, ai_move_3=minimax(board, depth=4, alpha=-9999,beta=9999, maximizing=True, player=-1)
+    score3, ai_move_3=minimax(board, depth=4, alpha=-9999,beta=9999, maximizing=True, player=-1)
     assert ai_move_3 in board.get_valid_moves()
 
-    assert score>0
+    assert score3>0
 
 
