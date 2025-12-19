@@ -10,7 +10,7 @@ def test_make_move_valid():
     '''laillinen siirto onnistuu'''
     board=Board()
     assert board.make_move(3,1)
-    assert board.grid[5][3]==1
+    assert board.grid[rows-1][3]==1
 
 def test_cannot_play_full_column():
     '''siirtoa EI voida tehdä täyteen sarakkeeseen'''
@@ -23,7 +23,15 @@ def test_get_valid_moves():
     '''palauttaa oikeat lailliset siirrot'''
     board=Board()
     moves=board.get_valid_moves()
-    assert set(moves)==set(range(7))
+    assert set(moves)==set(range(columns))
+
+def test_get_valid_moves_full_column():
+    board = Board()
+    for _ in range(rows):
+        board.make_move(0,1)
+    moves = board.get_valid_moves()
+    assert 0 not in moves
+    assert set(moves) == set(range(1, columns))
 
 def test_winner_horizontal():
     '''vaakasuora voitto tunnistetaan'''
