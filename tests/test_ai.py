@@ -14,6 +14,7 @@ def test_ai_wins_immediately():
         board.make_move(c, player)
     score, move=minimax(board, depth=2, alpha=-9999,beta=9999, maximizing=True, player=player)
     assert move==3 #AI voittaa neljännellä siirrolla
+    assert score>900
 
 def test_heuristic_preferes_center():
     '''suosii keskimmäistä reunaan verrattuna'''
@@ -37,9 +38,10 @@ def test_ai_blocks_opponent_win():
     for c in range(3):
         board.make_move(c, 1) #pelaajalla on kolme peräkkäin
     best_move=find_best_move(board, player=-1, time_limit=1.0)
-    best_move=minimax(board, depth=2, alpha=-9999,beta=9999, maximizing=True, player=-1)
+    score, best_move=minimax(board, depth=2, alpha=-9999,beta=9999, maximizing=True, player=-1)
+    assert best_move==3
     assert best_move in board.get_valid_moves()
-    assert best_move==3 
+     
 
 def test_minimax_symmetria():
     '''heuristiika on symmetrinen'''
@@ -59,6 +61,7 @@ def test_ai_chooses_winning_over_blocking():
     
     score, move=minimax(board, depth=2, alpha=-9999,beta=9999, maximizing=True, player=-1)
     assert move==0 #AI valitsee voittavan siirron
+    assert score>900
 
 def test_ai_recognizes_forced_win():
     '''AI tunnistaa pakotetun voiton'''
@@ -98,19 +101,18 @@ def test_minimax_finds_winning_move():
         (2, player), 
         (3, ai_player)
     ]
-    for col, p in moves:
-        board.make_move(col, p)
+    play_moves(board, moves)
     # minimax löytää varman voiton vain riittävällä syvyydellä
 
-    score, move = minimax(
+    score1, move1 = minimax(
         board, depth=5, alpha=-9999, beta=9999, 
         maximizing=True, player=ai_player)
     
-    assert move in board.get_valid_moves()
-    assert score>900 #TÄMÄ kertoo varmasta voitosta
+    assert move1 in board.get_valid_moves()
+    assert score1>900 #TÄMÄ kertoo varmasta voitosta
 
     #tehdään AI:n siirto
-    board.make_move(move, ai_player)
+    board.make_move(move1, ai_player)
 
     #vastustaja tekee siirron, mutta ei nopeuta AI:n voittoa
     opponent_move=board.get_valid_moves()[0]
@@ -122,5 +124,7 @@ def test_minimax_finds_winning_move():
 
     assert move2 in board.get_valid_moves()
     assert score2>900 #TÄMÄ kertoo varmasta voitosta
+
+    assert score2 > score1
 
 
