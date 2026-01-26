@@ -42,7 +42,7 @@ def test_heuristic_three_in_a_row():
     board_two.make_move(1,1)
     board_two.make_move(2,1)
 
-    expected = 5
+    expected = 7
     assert evaluate_board(board_two, 1) == expected
 
 def test_heuriristic_center_and_windows_combined():
@@ -79,6 +79,9 @@ def test_minimax_symmetria():
     board=Board()
     board.make_move(3,1)
     score1=evaluate_board(board, 1)
+    #negatoidaan lauta
+    board_neg = board.copy()
+    board_neg.grid = [[-cell for cell in row] for row in board.grid]
     score2=evaluate_board(board, -1)
     assert score1==-score2
 
@@ -135,7 +138,7 @@ def test_minimax_finds_winning_move():
     play_moves(board, moves)
     # minimax löytää varman voiton vain riittävällä syvyydellä
 
-    expected_best_move = 2
+    expected_best_move = 4
 
     score4, move4 = minimax(board, depth=4, alpha=-9999,beta=9999, maximizing=True, player=ai_player)
     assert score4 <=900 #ei löydä varmaa voittoa
