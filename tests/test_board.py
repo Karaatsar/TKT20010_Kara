@@ -74,10 +74,7 @@ def test_winner_diagonal_left():
     last_row, last_col=moves[-1]
     assert board.check_winner(last_row, last_col)==player
 
-def copy(self):
-    new_board = Board()
-    new_board.grid = [row[:] for row in self.grid]
-    return new_board
+
 
 
 

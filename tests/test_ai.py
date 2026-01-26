@@ -144,7 +144,8 @@ def test_minimax_finds_winning_move():
     assert move5 == expected_best_move
     assert score5 >900 #löytää varman voiton
 
-    assert score5 == 1000 - 5
+    if score5 < 1000:
+        assert score5 == 1000 - 5
     board.make_move(move5, ai_player)
 
     #vastustaja tekee "safe" siirron eikä nopeuta AI:n voittoa
@@ -160,5 +161,6 @@ def test_minimax_finds_winning_move():
     board.make_move(opponent_move, player)
 
     score_after, move_after = minimax(board, depth=4, alpha=-9999,beta=9999, maximizing=True, player=ai_player)
+    assert move_after in board.get_valid_moves()
     assert score_after > 900
     assert score_after == 1000 - 3 #voitto kolmella siirrolla

@@ -96,7 +96,7 @@ def minimax(board:Board, depth:int, alpha:float, beta:float, maximizing:bool,
             if last_row is False:
                 continue
             if new_board.check_winner(last_row, move)==player:
-                return 1000, move #tarkistetaan tuliko voitto heti
+                return 1000 - depth, move #tarkistetaan tuliko voitto heti
             new_score,_=minimax(new_board, depth-1, alpha, beta, False, player)
             if new_score>value:
                 value=new_score
@@ -119,7 +119,7 @@ def minimax(board:Board, depth:int, alpha:float, beta:float, maximizing:bool,
             if last_row is False:
                 continue
             if new_board.check_winner(last_row, move)==opponent:
-                return -1000, move
+                return -1000 + depth, move
             new_score,_=minimax(new_board, depth-1, alpha, beta, True, player)
             if new_score<value:
                 value=new_score

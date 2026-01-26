@@ -44,7 +44,11 @@ class Board:
         return sorted([c for c in range(cols) if self.is_valid_move(c)], 
                       key=lambda c: abs(c-center))
         
-    
+    def copy(self):
+        new_board = Board()
+        new_board.grid = [row[:] for row in self.grid]
+        return new_board
+
     def __str__(self):
         '''palauttaa pelilaudan merkkijonona'''
         return "\n".join(" ".join(str(cell) for cell in row) for row in self.grid)
