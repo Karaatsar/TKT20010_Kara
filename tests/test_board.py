@@ -1,5 +1,5 @@
 import pytest
-from board import Board, rows, columns
+from board import Board, rows, cols
 from ai import minimax
 
 def test_new_board_is_empty():
@@ -24,7 +24,7 @@ def test_get_valid_moves():
     '''palauttaa oikeat lailliset siirrot'''
     board=Board()
     moves=board.get_valid_moves()
-    assert set(moves)==set(range(columns))
+    assert set(moves)==set(range(cols))
 
 def test_get_valid_moves_full_column():
     board = Board()
@@ -32,7 +32,7 @@ def test_get_valid_moves_full_column():
         board.make_move(0,1)
     moves = board.get_valid_moves()
     assert 0 not in moves
-    assert set(moves) == set(range(1, columns))
+    assert set(moves) == set(range(1, cols))
 
 def test_winner_horizontal():
     '''vaakasuora voitto tunnistetaan'''
@@ -73,6 +73,11 @@ def test_winner_diagonal_left():
         board.grid[r][c]=player
     last_row, last_col=moves[-1]
     assert board.check_winner(last_row, last_col)==player
+
+def copy(self):
+    new_board = Board()
+    new_board.grid = [row[:] for row in self.grid]
+    return new_board
 
 
 

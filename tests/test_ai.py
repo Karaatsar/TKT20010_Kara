@@ -26,6 +26,37 @@ def test_heuristic_preferes_center():
     edge_score=evaluate_board(board_edge, 1)
     assert center_score>edge_score
 
+def test_heuristic_two_in_a_row():
+    '''kaksi peräkkäistä on parempi kuin yksi'''
+    board_one=Board()
+    board_one.make_move(0,1)
+    board_one.make_move(1,1)
+
+    expected = 2
+    assert evaluate_board(board_one, 1) == expected
+
+def test_heuristic_three_in_a_row():
+    '''kolme peräkkäistä on parempi kuin kaksi'''
+    board_two=Board()
+    board_two.make_move(0,1)
+    board_two.make_move(1,1)
+    board_two.make_move(2,1)
+
+    expected = 5
+    assert evaluate_board(board_two, 1) == expected
+
+def test_heuriristic_center_and_windows_combined():
+    '''keskusta ja peräkkäiset yhdistettynä'''
+    board=Board()
+    board.make_move(3,1) #keskellä
+    board.make_move(0,1)
+    board.make_move(1,1)
+    board.make_move(2,1)
+    board.make_move(4,1) #kaksi peräkkäistä
+
+    expected = 3 + 5 + 2  #keskusta + kolme peräkkäistä + kaksi peräkkäistä
+    assert evaluate_board(board, 1) == expected
+
 def test_ai_plays_legal():
     '''AI tekee vain laillisia siirtoja'''
     board=Board()
@@ -104,27 +135,30 @@ def test_minimax_finds_winning_move():
     play_moves(board, moves)
     # minimax löytää varman voiton vain riittävällä syvyydellä
 
-    score1, move1 = minimax(
-        board, depth=5, alpha=-9999, beta=9999, 
-        maximizing=True, player=ai_player)
-    
-    assert move1 in board.get_valid_moves()
-    assert score1>900 #TÄMÄ kertoo varmasta voitosta
+    expected_best_move = 2
 
-    #tehdään AI:n siirto
-    board.make_move(move1, ai_player)
+    score4, move4 = minimax(board, depth=4, alpha=-9999,beta=9999, maximizing=True, player=ai_player)
+    assert score4 <=900 #ei löydä varmaa voittoa
 
-    #vastustaja tekee siirron, mutta ei nopeuta AI:n voittoa
-    opponent_move=board.get_valid_moves()[0]
+    score5, move5 = minimax(board, depth=5, alpha=-9999,beta=9999, maximizing=True, player=ai_player)
+    assert move5 == expected_best_move
+    assert score5 >900 #löytää varman voiton
+
+    assert score5 == 1000 - 5
+    board.make_move(move5, ai_player)
+
+    #vastustaja tekee "safe" siirron eikä nopeuta AI:n voittoa
+    safe_moves = []
+    for m in board.get_valid_moves():
+        temp_board = board.copy()
+        temp_board.make_move(m, player)
+        s, _ = minimax(temp_board, depth=4, alpha=-9999,beta=9999, maximizing=True, player=ai_player)
+        if s <= 900:
+            safe_moves.append(m)
+
+    opponent_move = safe_moves[0]
     board.make_move(opponent_move, player)
 
-    score2, move2 = minimax(
-        board, depth=5, alpha=-9999, beta=9999, 
-        maximizing=True, player=ai_player)
-
-    assert move2 in board.get_valid_moves()
-    assert score2>900 #TÄMÄ kertoo varmasta voitosta
-
-    assert score2 > score1
-
-
+    score_after, move_after = minimax(board, depth=4, alpha=-9999,beta=9999, maximizing=True, player=ai_player)
+    assert score_after > 900
+    assert score_after == 1000 - 3 #voitto kolmella siirrolla
