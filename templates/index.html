@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Connect4 - Web</title>
+    <style>
+      body { font-family: system-ui, sans-serif; margin: 0; background: #000; color: #fff; display:flex; align-items:center; justify-content:center; min-height:100vh; }
+      .app { text-align:center; padding: 1rem; }
+      #board { display: grid; grid-template-columns: repeat(7, 56px); gap: 6px; margin: 12px auto; }
+      .cell { width:56px; height:56px; border-radius: 6px; background:#e386f6; display:flex; align-items:center; justify-content:center; font-weight:bold }
+      .cell.empty { background:#e58fff }
+      .cell.player { background: #721135 }
+      .cell.ai { background: #091078 }
+      /* column numbers header */
+      #cols { margin-top:8px; display:grid; grid-template-columns: repeat(7,56px); gap:6px; justify-content:center }
+      .col-num { width:56px; height:28px; border-radius:6px; background:rgba(255,255,255,0.06); display:flex; align-items:center; justify-content:center; cursor:pointer; color:#fff; font-weight:600 }
+      .col-num:hover { background: rgba(255,255,255,0.12) }
+      /* hover class rules to highlight a whole column */
+      #board.hover-col-1 > .cell:nth-child(7n+1),
+      #board.hover-col-2 > .cell:nth-child(7n+2),
+      #board.hover-col-3 > .cell:nth-child(7n+3),
+      #board.hover-col-4 > .cell:nth-child(7n+4),
+      #board.hover-col-5 > .cell:nth-child(7n+5),
+      #board.hover-col-6 > .cell:nth-child(7n+6),
+      #board.hover-col-7 > .cell:nth-child(7n+7) {
+        box-shadow: 0 6px 18px rgba(255,255,255,0.12);
+        transform: translateY(-4px);
+      }
+      #controls { margin-top: 12px }
+      button { padding: 8px 12px }
+    </style>
+  </head>
+  <body>
+    <div class="app">
+      <h1>Connect4 (browser)</h1>
+  <div id="status">loading...</div>
+  <div id="cols"></div>
+  <div id="board"></div>
+      <div id="controls">
+        <button id="new">New Game</button>
+      </div>
+    </div>
+
+    <script src="/static/app.js"></script>
+    <script>
+      (function(){
+        const colsEl = document.getElementById('cols')
+        if(!colsEl) return
+        const cols = 7
+        const statusEl = document.getElementById('status')
+        const boardEl = document.getElementById('board')
+        const originalStatus = statusEl ? statusEl.textContent : ''
+
+        for(let i=1;i<=cols;i++){
+          const el = document.createElement('div')
+          el.className = 'col-num'
+          el.textContent = String(i)
+          el.dataset.col = String(i-1)
+
+          el.addEventListener('mouseenter', ()=>{
+            boardEl.classList.add('hover-col-' + i)
+            if(statusEl) statusEl.textContent = 'Column ' + i
+          })
+          el.addEventListener('mouseleave', ()=>{
+            boardEl.classList.remove('hover-col-' + i)
+            if(statusEl) statusEl.textContent = originalStatus
+          })
+
+          el.addEventListener('click', ()=>{
+            const colIndex = i-1
+            // call the existing handler if defined in app.js
+            if(typeof window.onColumnClick === 'function'){
+              window.onColumnClick(colIndex)
+            } else {
+              // fallback: POST to /move
+              fetch('/move', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({column:colIndex})})
+                .then(r=>r.json()).then(d=>{ if(typeof window.renderGrid === 'function') window.renderGrid(d.grid) }).catch(()=>{})
+            }
+          })
+
+          colsEl.appendChild(el)
+        }
+      })()
+    </script>
+  </body>
+</html>

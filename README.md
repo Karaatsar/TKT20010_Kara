@@ -15,9 +15,18 @@ export PATH="$HOME/.local/bin:$PATH"
 
 ## käyttöohjeet
 
-käynnistä peli: poetry run python main.py (peliä pelataan
-komentorivin kautta) (pelaaja tekee siis siirtoja valitsemalla 
-sarakkeen numeron (1-7)). 
+käynnistä komentorivipeliversio:
+
+poetry run python main.py
+
+tai aja selainversio (tarvitset Flaskin):
+
+pip install -r requirements.txt
+python app.py
+
+avaa selaimessa http://127.0.0.1:5000
+
+Pelaa: klikkaa yläreunan ruutuja valitaksesi sarakkeen. Pelaaja on punainen, tekoäly sininen.
 
 ## tekoäly
 tekoäly arvioi koko pelin ajan pelitilanteita heuristiikkafunktion avulla ja käyttää minimax-algoritmia alpha-beta-karsinnalla, jotta löytäisi parhaimman mahdollisen siirron
